@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">HukumQ</string>
+    <string name="title_home">Home</string>
+    <string name="title_laws">Laws</string>
+    <string name="title_news">News</string>
+    <string name="title_settings">Settings</string>
+    <string name="title">Title</string>
+    <string name="pubDate">Publish Date</string>
+    <string name="no_data">Empty data</string>
+    <string name="something_wrong">Oops.. something went wrong.</string>
+</resources>
