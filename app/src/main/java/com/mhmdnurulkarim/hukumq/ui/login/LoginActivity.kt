@@ -35,6 +35,7 @@ class LoginActivity : AppCompatActivity() {
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(this, gso)
+        googleSignInClient.revokeAccess()
         // Initialize Firebase Auth
         auth = Firebase.auth
 
