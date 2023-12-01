@@ -1,10 +1,9 @@
-package com.mhmdnurulkarim.hukumq.ui.home
+package com.mhmdnurulkarim.hukumq.ui.main.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.database.FirebaseRecyclerOptions
@@ -13,7 +12,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.mhmdnurulkarim.hukumq.R
 import com.mhmdnurulkarim.hukumq.data.model.Message
 import com.mhmdnurulkarim.hukumq.databinding.FragmentHomeBinding
 import com.mhmdnurulkarim.hukumq.ui.adapter.MessageAdapter
@@ -43,30 +41,17 @@ class HomeFragment : Fragment() {
         val firebaseUser = auth.currentUser
 
         db = Firebase.database
-        val messagesRef = db.reference.child(MESSAGES_CHILD)
+        val messagesRef = db.reference.child(firebaseUser?.uid.toString())
 
         binding.sendButton.setOnClickListener {
-            val friendlyMessage = Message(
-                binding.messageEditText.text.toString(),
-                firebaseUser?.displayName.toString(),
-                firebaseUser?.photoUrl.toString(),
-                Date().time
+            messagesRef.push().setValue(
+                Message(
+                    binding.messageEditText.text.toString(),
+                    firebaseUser?.displayName.toString(),
+                    firebaseUser?.photoUrl.toString(),
+                    Date().time
+                )
             )
-            messagesRef.push().setValue(friendlyMessage) { error, _ ->
-                if (error != null) {
-                    Toast.makeText(
-                        requireActivity(),
-                        getString(R.string.send_error) + error.message,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    Toast.makeText(
-                        requireActivity(),
-                        getString(R.string.send_success),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
             binding.messageEditText.setText("")
         }
 

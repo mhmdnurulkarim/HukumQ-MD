@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="?actionBarSize"
-    tools:context=".ui.laws.LawsFragment">
+    tools:context=".ui.main.laws.LawsFragment">
 
     <TextView
         android:id="@+id/text_dashboard"

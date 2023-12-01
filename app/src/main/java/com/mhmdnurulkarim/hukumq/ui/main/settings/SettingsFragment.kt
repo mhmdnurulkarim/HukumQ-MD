@@ -1,4 +1,4 @@
-package com.mhmdnurulkarim.hukumq.ui.settings
+package com.mhmdnurulkarim.hukumq.ui.main.settings
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,14 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.mhmdnurulkarim.hukumq.R
-import com.mhmdnurulkarim.hukumq.databinding.FragmentNewsBinding
 import com.mhmdnurulkarim.hukumq.databinding.FragmentSettingsBinding
-import com.mhmdnurulkarim.hukumq.ui.login.LoginActivity
+import com.mhmdnurulkarim.hukumq.ui.auth.AuthActivity
 
 class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
@@ -38,7 +35,7 @@ class SettingsFragment : Fragment() {
 
         if (firebaseUser == null) {
             // Not signed in, launch the Login activity
-            startActivity(Intent(activity, LoginActivity::class.java))
+            startActivity(Intent(activity, AuthActivity::class.java))
             activity?.finishAffinity()
             return
         }
@@ -62,7 +59,7 @@ class SettingsFragment : Fragment() {
 
     private fun signOut() {
         auth.signOut()
-        startActivity(Intent(activity, LoginActivity::class.java))
+        startActivity(Intent(activity, AuthActivity::class.java))
         activity?.finishAffinity()
     }
 }

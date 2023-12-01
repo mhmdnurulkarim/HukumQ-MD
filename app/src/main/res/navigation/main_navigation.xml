@@ -7,24 +7,24 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.mhmdnurulkarim.hukumq.ui.home.HomeFragment"
+        android:name="com.mhmdnurulkarim.hukumq.ui.main.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_laws"
-        android:name="com.mhmdnurulkarim.hukumq.ui.laws.LawsFragment"
+        android:name="com.mhmdnurulkarim.hukumq.ui.main.laws.LawsFragment"
         android:label="@string/title_laws"
         tools:layout="@layout/fragment_laws" />
 
     <fragment
         android:id="@+id/navigation_news"
-        android:name="com.mhmdnurulkarim.hukumq.ui.news.NewsFragment"
+        android:name="com.mhmdnurulkarim.hukumq.ui.main.news.NewsFragment"
         android:label="@string/title_news"
         tools:layout="@layout/fragment_news" />
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.mhmdnurulkarim.hukumq.ui.settings.SettingsFragment"
+        android:name="com.mhmdnurulkarim.hukumq.ui.main.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>

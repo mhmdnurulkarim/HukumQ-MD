@@ -1,13 +1,13 @@
-package com.mhmdnurulkarim.hukumq.ui.laws
+package com.mhmdnurulkarim.hukumq.ui.main.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class LawsViewModel : ViewModel() {
+class HomeViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is Laws Fragment"
+        value = "This is home Fragment"
     }
     val text: LiveData<String> = _text
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="?actionBarSize"
-    tools:context=".ui.settings.SettingsFragment">
+    tools:context=".ui.main.settings.SettingsFragment">
 
     <ImageView
         android:id="@+id/iv_user"

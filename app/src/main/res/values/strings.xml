@@ -10,4 +10,6 @@
     <string name="something_wrong">Oops.. something went wrong.</string>
     <string name="send_success">Berhasil terkirim</string>
     <string name="send_error">Gagal terkirim</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
 </resources>

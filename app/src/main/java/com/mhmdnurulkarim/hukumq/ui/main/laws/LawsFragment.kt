@@ -1,4 +1,4 @@
-package com.mhmdnurulkarim.hukumq.ui.laws
+package com.mhmdnurulkarim.hukumq.ui.main.laws
 
 import android.os.Bundle
 import android.view.LayoutInflater

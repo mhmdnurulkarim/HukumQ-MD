@@ -1,4 +1,4 @@
-package com.mhmdnurulkarim.hukumq.ui.news
+package com.mhmdnurulkarim.hukumq.ui.main.news
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
