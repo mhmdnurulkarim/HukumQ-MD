@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.database.FirebaseRecyclerOptions
@@ -12,9 +13,14 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.ml.modeldownloader.CustomModelDownloadConditions
+import com.google.firebase.ml.modeldownloader.DownloadType
+import com.google.firebase.ml.modeldownloader.FirebaseModelDownloader
 import com.mhmdnurulkarim.hukumq.data.model.Message
 import com.mhmdnurulkarim.hukumq.databinding.FragmentHomeBinding
 import com.mhmdnurulkarim.hukumq.ui.adapter.MessageAdapter
+import org.tensorflow.lite.task.text.nlclassifier.NLClassifier
+import java.io.IOException
 import java.util.Date
 
 class HomeFragment : Fragment() {
@@ -24,6 +30,7 @@ class HomeFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseDatabase
     private lateinit var adapter: MessageAdapter
+    private lateinit var textClassifier: NLClassifier
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +49,8 @@ class HomeFragment : Fragment() {
 
         db = Firebase.database
         val messagesRef = db.reference.child(firebaseUser?.uid.toString())
+
+        downloadModel("HukumQ")
 
         binding.sendButton.setOnClickListener {
             messagesRef.push().setValue(
@@ -81,7 +90,31 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    companion object {
-        const val MESSAGES_CHILD = "messages"
+    private fun downloadModel(modelName: String) {
+        val conditions = CustomModelDownloadConditions.Builder()
+            .requireWifi()
+            .build()
+        FirebaseModelDownloader.getInstance()
+            .getModel(modelName, DownloadType.LOCAL_MODEL, conditions)
+            .addOnSuccessListener { model ->
+                try {
+                    textClassifier = NLClassifier.createFromFile(model.file)
+                    binding.sendButton.isEnabled = true
+                } catch (e: IOException) {
+                    Toast.makeText(
+                        requireActivity(),
+                        "Model initialization failed.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    binding.sendButton.isEnabled = false
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(
+                    requireActivity(),
+                    "Model download failed, please check your connection.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
     }
 }

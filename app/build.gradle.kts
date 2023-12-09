@@ -40,6 +40,9 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    androidResources {
+        noCompress += "tflite"
+    }
 }
 
 dependencies {
@@ -77,6 +80,10 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx:22.3.0")
     implementation("com.google.firebase:firebase-database-ktx:20.3.0")
     implementation("com.firebaseui:firebase-ui-database:8.0.0")
+
+    implementation("com.google.firebase:firebase-ml-modeldownloader:24.2.1")
+    implementation("org.tensorflow:tensorflow-lite:2.8.0")
+    implementation("org.tensorflow:tensorflow-lite-task-text:0.3.0")
 
     //Coroutine
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
