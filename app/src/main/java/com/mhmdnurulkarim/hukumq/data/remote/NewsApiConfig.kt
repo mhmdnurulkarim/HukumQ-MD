@@ -1,4 +1,4 @@
-package com.mhmdnurulkarim.hukumq.data.dataremote
+package com.mhmdnurulkarim.hukumq.data.remote
 
 import com.mhmdnurulkarim.hukumq.utils.Utils.BASE_URL
 import okhttp3.OkHttpClient

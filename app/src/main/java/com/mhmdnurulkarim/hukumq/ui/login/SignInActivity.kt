@@ -1,15 +1,12 @@
-package com.mhmdnurulkarim.hukumq.ui.auth.login
+package com.mhmdnurulkarim.hukumq.ui.login
 
 import android.app.Activity
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.Fragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -20,27 +17,19 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.mhmdnurulkarim.hukumq.R
-import com.mhmdnurulkarim.hukumq.databinding.FragmentLoginBinding
+import com.mhmdnurulkarim.hukumq.databinding.ActivitySignInBinding
 import com.mhmdnurulkarim.hukumq.ui.main.MainActivity
+import com.mhmdnurulkarim.hukumq.ui.register.SignUpActivity
 
-class LoginFragment : Fragment() {
-
-    private var _binding: FragmentLoginBinding? = null
-    private val binding get() = _binding!!
+class SignInActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySignInBinding
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivitySignInBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Initialize Firebase Auth
         auth = Firebase.auth
@@ -50,7 +39,7 @@ class LoginFragment : Fragment() {
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
-        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
         googleSignInClient.revokeAccess()
 
         binding.signInButton.setOnClickListener {
@@ -62,6 +51,15 @@ class LoginFragment : Fragment() {
                 binding.edtEmail.text.toString(),
                 binding.edtPassword.text.toString()
             )
+        }
+
+        binding.tvForgotPassword.setOnClickListener {
+            sendPasswordResetEmail(binding.edtEmail.text.toString())
+        }
+
+        binding.dontHaveAccount.setOnClickListener {
+            startActivity(Intent(this, SignUpActivity::class.java))
+            finish()
         }
     }
 
@@ -96,7 +94,7 @@ class LoginFragment : Fragment() {
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential)
-            .addOnCompleteListener(requireActivity()) { task ->
+            .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val currentUser = auth.currentUser
                     updateUI(currentUser)
@@ -106,22 +104,47 @@ class LoginFragment : Fragment() {
             }
     }
 
-    private fun firebaseAuthWithEmail(email: String, password: String){
+    private fun firebaseAuthWithEmail(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(requireActivity()) { task ->
+            .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val currentUser = auth.currentUser
                     updateUI(currentUser)
                 } else {
-                    Toast.makeText(requireActivity(), "Authentication failed.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT)
+                        .show()
                     updateUI(null)
                 }
             }
     }
+
+    private fun sendPasswordResetEmail(email: String) {
+        auth.sendPasswordResetEmail(email)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Password reset email sent successfully
+                    // You can inform the user or take other actions
+                    Toast.makeText(
+                        this,
+                        "Password reset email sent to $email",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    // Failed to send password reset email
+                    // You can handle the error here
+                    Toast.makeText(
+                        this,
+                        "Failed to send password reset email",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+    }
+
     private fun updateUI(currentUser: FirebaseUser?) {
-        if (currentUser != null){
-            startActivity(Intent(requireActivity(), MainActivity::class.java))
-            requireActivity().finish()
+        if (currentUser != null) {
+            startActivity(Intent(this, MainActivity::class.java))
+            this.finish()
         }
     }
 

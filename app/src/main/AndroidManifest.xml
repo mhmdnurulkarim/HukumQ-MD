@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -14,9 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HukumQ"
         tools:targetApi="31">
-
         <activity
-            android:name=".ui.auth.AuthActivity"
+            android:name=".ui.login.SignInActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.register.SignUpActivity"
             android:exported="false" />
         <activity
             android:name=".ui.main.MainActivity"

@@ -1,9 +1,10 @@
-package com.mhmdnurulkarim.hukumq.data.model
+package com.mhmdnurulkarim.hukumq.data
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
-import com.mhmdnurulkarim.hukumq.data.dataremote.NewsApiService
+import com.mhmdnurulkarim.hukumq.data.remote.NewsApiService
+import com.mhmdnurulkarim.hukumq.data.model.NewsEntity
 
 class NewsRepository(
     private val apiService: NewsApiService,

@@ -1,4 +1,4 @@
-package com.mhmdnurulkarim.hukumq.data.dataremote
+package com.mhmdnurulkarim.hukumq.data.remote
 
 import retrofit2.http.GET
 

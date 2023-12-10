@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.mhmdnurulkarim.hukumq.R
-import com.mhmdnurulkarim.hukumq.ui.auth.AuthActivity
+import com.mhmdnurulkarim.hukumq.ui.login.SignInActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -19,7 +19,7 @@ class SplashActivity : AppCompatActivity() {
         runBlocking {
             launch {
                 delay(2000)
-                startActivity(Intent(this@SplashActivity, AuthActivity::class.java))
+                startActivity(Intent(this@SplashActivity, SignInActivity::class.java))
                 finishAffinity()
             }
         }

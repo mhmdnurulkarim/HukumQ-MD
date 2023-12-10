@@ -1,8 +1,8 @@
 package com.mhmdnurulkarim.hukumq.di
 
 import android.content.Context
-import com.mhmdnurulkarim.hukumq.data.dataremote.NewsApiConfig
-import com.mhmdnurulkarim.hukumq.data.model.NewsRepository
+import com.mhmdnurulkarim.hukumq.data.remote.NewsApiConfig
+import com.mhmdnurulkarim.hukumq.data.NewsRepository
 
 object Injection {
     fun provideNewsRepository(context: Context): NewsRepository {

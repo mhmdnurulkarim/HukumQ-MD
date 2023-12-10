@@ -3,7 +3,7 @@ package com.mhmdnurulkarim.hukumq.ui.main.news
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mhmdnurulkarim.hukumq.data.model.NewsRepository
+import com.mhmdnurulkarim.hukumq.data.NewsRepository
 
 class NewsViewModel(private val newsRepository: NewsRepository) : ViewModel() {
 

@@ -13,7 +13,7 @@ import com.mhmdnurulkarim.hukumq.R
 import com.mhmdnurulkarim.hukumq.databinding.FragmentNewsBinding
 import com.mhmdnurulkarim.hukumq.ui.ViewModelFactory
 import com.mhmdnurulkarim.hukumq.ui.adapter.NewsAdapter
-import com.mhmdnurulkarim.hukumq.data.model.Result
+import com.mhmdnurulkarim.hukumq.data.Result
 
 class NewsFragment : Fragment() {
 

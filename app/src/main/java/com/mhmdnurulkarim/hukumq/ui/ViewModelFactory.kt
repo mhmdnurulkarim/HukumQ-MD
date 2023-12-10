@@ -3,7 +3,7 @@ package com.mhmdnurulkarim.hukumq.ui
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.mhmdnurulkarim.hukumq.data.model.NewsRepository
+import com.mhmdnurulkarim.hukumq.data.NewsRepository
 import com.mhmdnurulkarim.hukumq.di.Injection
 import com.mhmdnurulkarim.hukumq.ui.main.news.NewsViewModel
 

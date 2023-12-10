@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.mhmdnurulkarim.hukumq.databinding.FragmentSettingsBinding
-import com.mhmdnurulkarim.hukumq.ui.auth.AuthActivity
+import com.mhmdnurulkarim.hukumq.ui.login.SignInActivity
 
 class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
@@ -35,7 +35,7 @@ class SettingsFragment : Fragment() {
 
         if (firebaseUser == null) {
             // Not signed in, launch the Login activity
-            startActivity(Intent(activity, AuthActivity::class.java))
+            startActivity(Intent(activity, SignInActivity::class.java))
             activity?.finishAffinity()
             return
         }
@@ -59,7 +59,7 @@ class SettingsFragment : Fragment() {
 
     private fun signOut() {
         auth.signOut()
-        startActivity(Intent(activity, AuthActivity::class.java))
+        startActivity(Intent(activity, SignInActivity::class.java))
         activity?.finishAffinity()
     }
 }
