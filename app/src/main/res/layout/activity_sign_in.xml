@@ -10,6 +10,7 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:src="@mipmap/ic_launcher"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,23 +21,35 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Sign In Now!"
+        android:text="SIGN IN NOW!"
+        android:textColor="@color/black"
+        android:textSize="24dp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/signInButton"
+    <Button
+        android:id="@+id/btnSignInGoogle"
+        style="@style/Widget.Material3.Button.ElevatedButton.Icon"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
+        android:text="CONTINUE WITH GOOGLE"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:icon="@drawable/googleg_standard_color_18"
+        app:iconGravity="textStart"
+        app:iconPadding="20dp"
+        app:iconSize="24dp"
+        app:iconTint="@color/firebase_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView11">
-
-    </com.google.android.gms.common.SignInButton>
+        app:layout_constraintTop_toBottomOf="@+id/textView11"
+        app:rippleColor="@color/firebase_blue"/>
 
     <TextView
         android:id="@+id/textView8"
@@ -44,18 +57,24 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="OR"
-        app:layout_constraintEnd_toEndOf="@+id/signInButton"
-        app:layout_constraintStart_toStartOf="@+id/signInButton"
-        app:layout_constraintTop_toBottomOf="@+id/signInButton" />
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/btnSignInGoogle"
+        app:layout_constraintStart_toStartOf="@+id/btnSignInGoogle"
+        app:layout_constraintTop_toBottomOf="@+id/btnSignInGoogle" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layoutInputEmail"
+        style="?attr/textInputOutlinedDenseStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
+        app:errorEnabled="true"
         android:hint="Email"
+        app:hintTextColor="@color/firebase_blue"
+        app:boxStrokeColor="@color/firebase_blue"
+        app:cursorColor="@color/firebase_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8">
@@ -63,16 +82,22 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtEmail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="58dp"
+            android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layoutInputPassword"
+        style="?attr/textInputOutlinedDenseStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:layout_marginTop="16dp"
         android:hint="Password"
+        app:hintTextColor="@color/firebase_blue"
+        app:boxStrokeColor="@color/firebase_blue"
+        app:endIconMode="password_toggle"
+        app:cursorColor="@color/firebase_blue"
         app:layout_constraintEnd_toEndOf="@+id/layoutInputEmail"
         app:layout_constraintStart_toStartOf="@+id/layoutInputEmail"
         app:layout_constraintTop_toBottomOf="@+id/layoutInputEmail">
@@ -80,31 +105,35 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="58dp"
+            android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btnRegister"
-        style="@style/Widget.Material3.Button.ElevatedButton"
+        android:id="@+id/btnSignIn"
+        style="@style/Widget.Material3.Button.Icon"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:layout_marginTop="16dp"
+        android:backgroundTint="@color/firebase_blue"
         android:text="SIGN IN"
-        android:textSize="24sp"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/layoutInputPassword"
         app:layout_constraintStart_toStartOf="@+id/layoutInputPassword"
         app:layout_constraintTop_toBottomOf="@+id/layoutInputPassword" />
 
     <TextView
-        android:id="@+id/tv_forgot_password"
+        android:id="@+id/tvForgotPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="FORGOT PASSWORD"
-        app:layout_constraintEnd_toEndOf="@+id/btnRegister"
-        app:layout_constraintStart_toStartOf="@+id/btnRegister"
-        app:layout_constraintTop_toBottomOf="@+id/btnRegister" />
+        android:textColor="@color/firebase_blue"
+        app:layout_constraintEnd_toEndOf="@+id/btnSignIn"
+        app:layout_constraintStart_toStartOf="@+id/btnSignIn"
+        app:layout_constraintTop_toBottomOf="@+id/btnSignIn" />
 
     <LinearLayout
         android:id="@+id/dont_have_account"
@@ -119,12 +148,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DONT HAVE AN ACCOUNT?" />
+            android:text="DONT HAVE AN ACCOUNT?"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SIGN UP" />
+            android:layout_marginStart="4dp"
+            android:text="SIGN UP"
+            android:textColor="@color/firebase_blue"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

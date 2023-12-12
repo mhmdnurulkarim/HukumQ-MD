@@ -30,7 +30,7 @@ class HomeFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseDatabase
     private lateinit var adapter: MessageAdapter
-    private lateinit var textClassifier: NLClassifier
+//    private lateinit var textClassifier: NLClassifier
 
     override fun onCreateView(
         inflater: LayoutInflater,

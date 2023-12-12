@@ -42,19 +42,34 @@ class SignInActivity : AppCompatActivity() {
         googleSignInClient = GoogleSignIn.getClient(this, gso)
         googleSignInClient.revokeAccess()
 
-        binding.signInButton.setOnClickListener {
+        binding.btnSignInGoogle.setOnClickListener {
             signIn()
         }
 
-        binding.btnRegister.setOnClickListener {
-            firebaseAuthWithEmail(
-                binding.edtEmail.text.toString(),
-                binding.edtPassword.text.toString()
-            )
+        binding.btnSignIn.setOnClickListener {
+            if (binding.edtEmail.text.toString().isEmpty()){
+                binding.edtEmail.requestFocus()
+            } else if (binding.edtPassword.text.toString().isEmpty()){
+                binding.edtPassword.requestFocus()
+            } else {
+                firebaseAuthWithEmail(
+                    binding.edtEmail.text.toString(),
+                    binding.edtPassword.text.toString()
+                )
+            }
         }
 
         binding.tvForgotPassword.setOnClickListener {
-            sendPasswordResetEmail(binding.edtEmail.text.toString())
+            if (binding.edtEmail.text.toString().isEmpty()) {
+                binding.edtEmail.requestFocus()
+                Toast.makeText(
+                    this,
+                    "Insert your email",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                sendPasswordResetEmail(binding.edtEmail.text.toString())
+            }
         }
 
         binding.dontHaveAccount.setOnClickListener {
@@ -149,6 +164,6 @@ class SignInActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val TAG = "LoginFragment"
+        private const val TAG = "Sign In Activity"
     }
 }

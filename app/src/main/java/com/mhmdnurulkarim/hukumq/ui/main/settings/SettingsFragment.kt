@@ -23,7 +23,6 @@ class SettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -34,7 +33,6 @@ class SettingsFragment : Fragment() {
         val firebaseUser = auth.currentUser
 
         if (firebaseUser == null) {
-            // Not signed in, launch the Login activity
             startActivity(Intent(activity, SignInActivity::class.java))
             activity?.finishAffinity()
             return
@@ -46,6 +44,26 @@ class SettingsFragment : Fragment() {
             .load(firebaseUser.photoUrl)
             .circleCrop()
             .into(binding.ivUser)
+
+        binding.btnChangePassword.setOnClickListener{
+
+        }
+
+        binding.btnDeleteAccount.setOnClickListener {
+
+        }
+
+        binding.btnAboutUs.setOnClickListener {
+
+        }
+
+        binding.btnPrivacyPolicy.setOnClickListener {
+
+        }
+
+        binding.btnTermConditions.setOnClickListener {
+            
+        }
 
         binding.btnLogout.setOnClickListener {
             signOut()

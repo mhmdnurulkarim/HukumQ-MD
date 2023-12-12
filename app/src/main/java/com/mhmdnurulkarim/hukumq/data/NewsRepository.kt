@@ -4,18 +4,18 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.mhmdnurulkarim.hukumq.data.remote.NewsApiService
-import com.mhmdnurulkarim.hukumq.data.model.NewsEntity
+import com.mhmdnurulkarim.hukumq.data.model.News
 
 class NewsRepository(
     private val apiService: NewsApiService,
 ) {
-    fun getHeadlineNews(): LiveData<Result<List<NewsEntity>>> = liveData {
+    fun getHeadlineNews(): LiveData<Result<List<News>>> = liveData {
         emit(Result.Loading)
         try {
             val response = apiService.getNews()
             val articles = response.data.posts
             val newsList = articles.map { article ->
-                NewsEntity(
+                News(
                     article.title,
                     article.link,
                     article.pubDate,

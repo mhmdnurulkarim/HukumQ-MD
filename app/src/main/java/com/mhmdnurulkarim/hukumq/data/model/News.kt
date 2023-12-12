@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Entity(tableName = "news")
-data class NewsEntity(
+data class News(
     @field:ColumnInfo(name = "title")
     @field:PrimaryKey
     val title: String,
@@ -21,5 +21,4 @@ data class NewsEntity(
 
     @field:ColumnInfo(name = "thumbnail")
     val thumbnail: String
-
 ) : Parcelable

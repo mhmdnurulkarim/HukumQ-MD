@@ -54,7 +54,6 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
-//    implementation("androidx.preference:preference-ktx:1.2.1")
     implementation("androidx.annotation:annotation:1.7.0")
 
     //Testing
@@ -74,6 +73,10 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.1")
     implementation("androidx.room:room-runtime:2.6.1")
     ksp("androidx.room:room-compiler:2.6.1")
+
+    //Paging Data
+    implementation("androidx.paging:paging-runtime-ktx:3.2.1")
+    implementation("androidx.room:room-paging:2.6.1")
 
     //Firebase
     implementation("com.google.android.gms:play-services-auth:20.7.0")

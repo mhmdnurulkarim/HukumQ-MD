@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.mhmdnurulkarim.hukumq.R
-import com.mhmdnurulkarim.hukumq.data.model.NewsEntity
+import com.mhmdnurulkarim.hukumq.data.model.News
 import com.mhmdnurulkarim.hukumq.databinding.ItemNewsBinding
 import com.mhmdnurulkarim.hukumq.ui.adapter.NewsAdapter.MyViewHolder
 
-class NewsAdapter (private val onItemClick: (NewsEntity) -> Unit) : ListAdapter<NewsEntity, MyViewHolder>(
+class NewsAdapter (private val onItemClick: (News) -> Unit) : ListAdapter<News, MyViewHolder>(
     DIFF_CALLBACK
 ) {
 
@@ -29,11 +29,11 @@ class NewsAdapter (private val onItemClick: (NewsEntity) -> Unit) : ListAdapter<
 
     class MyViewHolder(
         private val binding: ItemNewsBinding,
-        val onItemClick: (NewsEntity) -> Unit
+        val onItemClick: (News) -> Unit
     ) : RecyclerView.ViewHolder(
         binding.root
     ) {
-        fun bind(news: NewsEntity) {
+        fun bind(news: News) {
             binding.tvItemTitle.text = news.title
             binding.tvItemPublishedDate.text = news.pubDate
             Glide.with(itemView.context)
@@ -49,14 +49,14 @@ class NewsAdapter (private val onItemClick: (NewsEntity) -> Unit) : ListAdapter<
     }
 
     companion object {
-        val DIFF_CALLBACK: DiffUtil.ItemCallback<NewsEntity> =
-            object : DiffUtil.ItemCallback<NewsEntity>() {
-                override fun areItemsTheSame(oldUser: NewsEntity, newUser: NewsEntity): Boolean {
+        val DIFF_CALLBACK: DiffUtil.ItemCallback<News> =
+            object : DiffUtil.ItemCallback<News>() {
+                override fun areItemsTheSame(oldUser: News, newUser: News): Boolean {
                     return oldUser.title == newUser.title
                 }
 
                 @SuppressLint("DiffUtilEquals")
-                override fun areContentsTheSame(oldUser: NewsEntity, newUser: NewsEntity): Boolean {
+                override fun areContentsTheSame(oldUser: News, newUser: News): Boolean {
                     return oldUser == newUser
                 }
             }
