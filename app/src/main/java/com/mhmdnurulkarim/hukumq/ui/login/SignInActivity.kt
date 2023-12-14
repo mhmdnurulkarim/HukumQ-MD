@@ -2,15 +2,15 @@ package com.mhmdnurulkarim.hukumq.ui.login
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
@@ -20,9 +20,11 @@ import com.mhmdnurulkarim.hukumq.R
 import com.mhmdnurulkarim.hukumq.databinding.ActivitySignInBinding
 import com.mhmdnurulkarim.hukumq.ui.main.MainActivity
 import com.mhmdnurulkarim.hukumq.ui.register.SignUpActivity
+import com.mhmdnurulkarim.hukumq.utils.Utils.isInternetAvailable
 
 class SignInActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignInBinding
+
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth
 
@@ -31,7 +33,6 @@ class SignInActivity : AppCompatActivity() {
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Initialize Firebase Auth
         auth = Firebase.auth
 
         val gso = GoogleSignInOptions
@@ -43,32 +44,66 @@ class SignInActivity : AppCompatActivity() {
         googleSignInClient.revokeAccess()
 
         binding.btnSignInGoogle.setOnClickListener {
-            signIn()
+            if (!isInternetAvailable(this)) {
+                Snackbar.make(
+                    binding.activitySignIn,
+                    getString(R.string.check_your_internet),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            } else {
+                signIn()
+            }
         }
 
         binding.btnSignIn.setOnClickListener {
-            if (binding.edtEmail.text.toString().isEmpty()){
+            if (binding.edtEmail.text.toString().isEmpty()) {
                 binding.edtEmail.requestFocus()
-            } else if (binding.edtPassword.text.toString().isEmpty()){
+                Snackbar.make(
+                    binding.activitySignIn,
+                    getString(R.string.fill_the_email_field_first),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            } else if (binding.edtPassword.text.toString().isEmpty()) {
                 binding.edtPassword.requestFocus()
+                Snackbar.make(
+                    binding.activitySignIn,
+                    getString(R.string.fill_the_password_field_first),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            } else if (!isInternetAvailable(this)) {
+                Snackbar.make(
+                    binding.activitySignIn,
+                    getString(R.string.check_your_internet),
+                    Snackbar.LENGTH_SHORT
+                ).show()
             } else {
                 firebaseAuthWithEmail(
                     binding.edtEmail.text.toString(),
                     binding.edtPassword.text.toString()
                 )
+
+                binding.edtEmail.setText("")
+                binding.edtPassword.setText("")
             }
         }
 
         binding.tvForgotPassword.setOnClickListener {
             if (binding.edtEmail.text.toString().isEmpty()) {
                 binding.edtEmail.requestFocus()
-                Toast.makeText(
-                    this,
-                    "Insert your email",
-                    Toast.LENGTH_SHORT
+                Snackbar.make(
+                    binding.activitySignIn,
+                    getString(R.string.fill_the_email_field_first),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            } else if (!isInternetAvailable(this)) {
+                Snackbar.make(
+                    binding.activitySignIn,
+                    getString(R.string.check_your_internet),
+                    Snackbar.LENGTH_SHORT
                 ).show()
             } else {
                 sendPasswordResetEmail(binding.edtEmail.text.toString())
+                binding.edtEmail.setText("")
             }
         }
 
@@ -78,32 +113,22 @@ class SignInActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        val currentUser = auth.currentUser
-        updateUI(currentUser)
-    }
-
-    private fun signIn() {
-        val signInIntent = googleSignInClient.signInIntent
-        resultLauncher.launch(signInIntent)
-    }
-
     private var resultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
-                // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)!!
-                Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
                 firebaseAuthWithGoogle(account.idToken!!)
             } catch (e: ApiException) {
-                // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e)
             }
         }
+    }
+
+    private fun signIn() {
+        resultLauncher.launch(googleSignInClient.signInIntent)
     }
 
     private fun firebaseAuthWithGoogle(idToken: String) {
@@ -111,8 +136,7 @@ class SignInActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    val currentUser = auth.currentUser
-                    updateUI(currentUser)
+                    updateUI(auth.currentUser)
                 } else {
                     updateUI(null)
                 }
@@ -123,11 +147,13 @@ class SignInActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    val currentUser = auth.currentUser
-                    updateUI(currentUser)
+                    updateUI(auth.currentUser)
                 } else {
-                    Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT)
-                        .show()
+                    Snackbar.make(
+                        binding.activitySignIn,
+                        getString(R.string.authentication_failed),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                     updateUI(null)
                 }
             }
@@ -137,30 +163,31 @@ class SignInActivity : AppCompatActivity() {
         auth.sendPasswordResetEmail(email)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Password reset email sent successfully
-                    // You can inform the user or take other actions
-                    Toast.makeText(
-                        this,
-                        "Password reset email sent to $email",
-                        Toast.LENGTH_SHORT
+                    Snackbar.make(
+                        binding.activitySignIn,
+                        getString(R.string.password_reset_email, email),
+                        Snackbar.LENGTH_SHORT
                     ).show()
                 } else {
-                    // Failed to send password reset email
-                    // You can handle the error here
-                    Toast.makeText(
-                        this,
-                        "Failed to send password reset email",
-                        Toast.LENGTH_SHORT
+                    Snackbar.make(
+                        binding.activitySignIn,
+                        getString(R.string.failed_to_send_password_reset_email),
+                        Snackbar.LENGTH_SHORT
                     ).show()
                 }
             }
     }
 
-    private fun updateUI(currentUser: FirebaseUser?) {
-        if (currentUser != null) {
+    private fun updateUI(firebaseUser: FirebaseUser?) {
+        if (firebaseUser != null) {
             startActivity(Intent(this, MainActivity::class.java))
-            this.finish()
+            finish()
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        updateUI(auth.currentUser)
     }
 
     companion object {

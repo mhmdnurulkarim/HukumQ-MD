@@ -1,4 +1,4 @@
-package com.mhmdnurulkarim.hukumq.ui.adapter
+package com.mhmdnurulkarim.hukumq.ui.main.news
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.mhmdnurulkarim.hukumq.R
 import com.mhmdnurulkarim.hukumq.data.model.News
 import com.mhmdnurulkarim.hukumq.databinding.ItemNewsBinding
-import com.mhmdnurulkarim.hukumq.ui.adapter.NewsAdapter.MyViewHolder
+import com.mhmdnurulkarim.hukumq.ui.main.news.NewsAdapter.MyViewHolder
 
 class NewsAdapter (private val onItemClick: (News) -> Unit) : ListAdapter<News, MyViewHolder>(
     DIFF_CALLBACK

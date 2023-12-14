@@ -4,13 +4,13 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
@@ -20,6 +20,7 @@ import com.mhmdnurulkarim.hukumq.R
 import com.mhmdnurulkarim.hukumq.databinding.ActivitySignUpBinding
 import com.mhmdnurulkarim.hukumq.ui.login.SignInActivity
 import com.mhmdnurulkarim.hukumq.ui.main.MainActivity
+import com.mhmdnurulkarim.hukumq.utils.Utils
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
@@ -31,7 +32,6 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Initialize Firebase Auth
         auth = Firebase.auth
 
         val gso = GoogleSignInOptions
@@ -43,21 +43,54 @@ class SignUpActivity : AppCompatActivity() {
         googleSignInClient.revokeAccess()
 
         binding.btnSignInGoogle.setOnClickListener {
-            signIn()
+            if (!Utils.isInternetAvailable(this)) {
+                Snackbar.make(
+                    binding.activitySignUp,
+                    "Please Check your internet!",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            } else {
+                signIn()
+            }
         }
 
         binding.btnSignUp.setOnClickListener {
             if (binding.edtEmail.text.toString().isEmpty()) {
                 binding.edtEmail.requestFocus()
+                Snackbar.make(
+                    binding.activitySignUp,
+                    getString(R.string.fill_the_email_field_first),
+                    Snackbar.LENGTH_SHORT
+                ).show()
             } else if (binding.edtUsername.text.toString().isEmpty()) {
                 binding.edtUsername.requestFocus()
+                Snackbar.make(
+                    binding.activitySignUp,
+                    getString(R.string.fill_the_username_field_first),
+                    Snackbar.LENGTH_SHORT
+                ).show()
             } else if (binding.edtPassword.text.toString().isEmpty()) {
                 binding.edtPassword.requestFocus()
+                Snackbar.make(
+                    binding.activitySignUp,
+                    getString(R.string.fill_the_password_field_first),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            } else if (!Utils.isInternetAvailable(this)) {
+                Snackbar.make(
+                    binding.activitySignUp,
+                    getString(R.string.check_your_internet),
+                    Snackbar.LENGTH_SHORT
+                ).show()
             } else {
                 firebaseCreateAuthWithEmail(
                     binding.edtEmail.text.toString(),
                     binding.edtPassword.text.toString()
                 )
+
+                binding.edtEmail.setText("")
+                binding.edtUsername.setText("")
+                binding.edtPassword.setText("")
             }
         }
 
@@ -84,12 +117,9 @@ class SignUpActivity : AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
-                // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)!!
-                Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
                 firebaseAuthWithGoogle(account.idToken!!)
             } catch (e: ApiException) {
-                // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e)
             }
         }
@@ -100,8 +130,7 @@ class SignUpActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    val currentUser = auth.currentUser
-                    updateUI(currentUser)
+                    updateUI(auth.currentUser)
                 } else {
                     updateUI(null)
                 }
@@ -114,27 +143,28 @@ class SignUpActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val currentUser = auth.currentUser
                     currentUser?.sendEmailVerification()
-                        ?.addOnCompleteListener(this) { task ->
+                        ?.addOnCompleteListener(this) {
                             if (task.isSuccessful) {
                                 startActivity(Intent(this, SignInActivity::class.java))
-                                Toast.makeText(
-                                    this,
-                                    "Verification email sent to ${auth.currentUser?.email}",
-                                    Toast.LENGTH_SHORT
+                                finish()
+                                Snackbar.make(
+                                    binding.activitySignUp,
+                                    getString(R.string.verification_email, auth.currentUser?.email),
+                                    Snackbar.LENGTH_SHORT
                                 ).show()
                             } else {
-                                Toast.makeText(
-                                    this,
-                                    "Failed to send verification email",
-                                    Toast.LENGTH_SHORT
+                                Snackbar.make(
+                                    binding.activitySignUp,
+                                    getString(R.string.failed_to_send_verification_email),
+                                    Snackbar.LENGTH_SHORT
                                 ).show()
                             }
                         }
                 } else {
-                    Toast.makeText(
-                        this,
-                        "Authentication failed.",
-                        Toast.LENGTH_SHORT
+                    Snackbar.make(
+                        binding.activitySignUp,
+                        getString(R.string.authentication_failed),
+                        Snackbar.LENGTH_SHORT
                     ).show()
                 }
             }

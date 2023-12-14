@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentHome"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="?actionBarSize"
@@ -11,31 +13,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/firebase_gray"
         android:orientation="horizontal"
-        android:paddingHorizontal="10dp">
+        android:weightSum="2"
+        android:padding="8dp">
 
-        <EditText
-            android:id="@+id/messageEditText"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutInputMessage"
+            style="?attr/textInputOutlinedDenseStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
+            android:layout_weight="2"
+            android:layout_marginEnd="8dp"
+            app:boxStrokeColor="@color/BluePrimary"
+            app:cursorColor="@color/BluePrimary"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="@+id/layoutInputEmail"
+            app:layout_constraintStart_toStartOf="@+id/layoutInputEmail"
+            app:layout_constraintTop_toBottomOf="@+id/layoutInputEmail">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtMessage"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
             android:layout_weight="1"
-            android:background="@drawable/edit_text_shadow"
             android:hint="Say something..."
-            android:inputType="text"
-            android:minHeight="48dp"
-            android:padding="10dp" />
+            android:inputType="text" />
 
-        <ImageView
-            android:id="@+id/sendButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            style="?attr/materialIconButtonFilledStyle"
+            android:id="@+id/btnSend"
+            android:layout_width="54dp"
+            android:layout_height="64dp"
             android:layout_gravity="center"
-            android:enabled="false"
-            android:src="@drawable/outline_send_24" />
-
+            app:icon="@drawable/outline_send_24" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

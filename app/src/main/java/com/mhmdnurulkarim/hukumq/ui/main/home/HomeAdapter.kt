@@ -1,4 +1,4 @@
-package com.mhmdnurulkarim.hukumq.ui.adapter
+package com.mhmdnurulkarim.hukumq.ui.main.home
 
 import android.text.format.DateUtils
 import android.view.LayoutInflater
@@ -12,10 +12,10 @@ import com.mhmdnurulkarim.hukumq.R
 import com.mhmdnurulkarim.hukumq.data.model.Message
 import com.mhmdnurulkarim.hukumq.databinding.ItemMessageBinding
 
-class MessageAdapter(
+class HomeAdapter(
     options: FirebaseRecyclerOptions<Message>,
     private val currentUserName: String?
-): FirebaseRecyclerAdapter<Message, MessageAdapter.MessageViewHolder>(options) {
+): FirebaseRecyclerAdapter<Message, HomeAdapter.MessageViewHolder>(options) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.item_message, parent, false)

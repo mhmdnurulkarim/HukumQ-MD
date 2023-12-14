@@ -39,9 +39,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
-    }
-    androidResources {
-        noCompress += "tflite"
+        mlModelBinding = true
     }
 }
 
@@ -55,6 +53,8 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
     implementation("androidx.annotation:annotation:1.7.0")
+//    implementation("org.tensorflow:tensorflow-lite-support:0.1.0")
+//    implementation("org.tensorflow:tensorflow-lite-metadata:0.1.0")
 
     //Testing
     testImplementation("junit:junit:4.13.2")
@@ -62,12 +62,12 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     //Glide
-    implementation("com.github.bumptech.glide:glide:4.15.1")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 
     //Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
     //Room
     implementation("androidx.room:room-ktx:2.6.1")
@@ -82,11 +82,11 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:20.7.0")
     implementation("com.google.firebase:firebase-auth-ktx:22.3.0")
     implementation("com.google.firebase:firebase-database-ktx:20.3.0")
-    implementation("com.firebaseui:firebase-ui-database:8.0.0")
+    implementation("com.firebaseui:firebase-ui-database:8.0.2")
 
     implementation("com.google.firebase:firebase-ml-modeldownloader:24.2.1")
-    implementation("org.tensorflow:tensorflow-lite:2.8.0")
-    implementation("org.tensorflow:tensorflow-lite-task-text:0.3.0")
+    implementation("org.tensorflow:tensorflow-lite:2.14.0")
+    implementation("org.tensorflow:tensorflow-lite-task-text:0.4.4")
 
     //Coroutine
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
