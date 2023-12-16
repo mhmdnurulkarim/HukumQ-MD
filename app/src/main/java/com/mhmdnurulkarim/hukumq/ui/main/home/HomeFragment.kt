@@ -5,20 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.mhmdnurulkarim.hukumq.R
+import com.mhmdnurulkarim.hukumq.data.Result
 //import com.google.firebase.ml.modeldownloader.CustomModelDownloadConditions
 //import com.google.firebase.ml.modeldownloader.DownloadType
 //import com.google.firebase.ml.modeldownloader.FirebaseModelDownloader
-import com.mhmdnurulkarim.hukumq.data.model.Message
 import com.mhmdnurulkarim.hukumq.databinding.FragmentHomeBinding
+import com.mhmdnurulkarim.hukumq.ui.ViewModelFactory
 //import org.tensorflow.lite.task.text.nlclassifier.NLClassifier
 import java.util.Date
 
@@ -26,10 +25,15 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    private val homeViewModel: HomeViewModel by viewModels {
+        ViewModelFactory.getInstance(
+            requireActivity()
+        )
+    }
+
     private lateinit var auth: FirebaseAuth
-    private lateinit var db: FirebaseDatabase
     private lateinit var adapter: HomeAdapter
-//    private lateinit var textClassifier: NLClassifier
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,31 +49,67 @@ class HomeFragment : Fragment() {
 
         auth = Firebase.auth
         val firebaseUser = auth.currentUser
+        updateMessage(firebaseUser?.uid.toString())
 
-        db = Firebase.database
-        val messagesRef = db.reference.child(firebaseUser?.uid.toString())
-
-//        downloadModel("HukumQ")
+        homeViewModel.insertUser(
+            uid = firebaseUser?.uid.toString(),
+            name = firebaseUser?.displayName.toString(),
+            photoUrl = firebaseUser?.photoUrl.toString()
+        )
 
         binding.btnSend.setOnClickListener {
             if (binding.edtMessage.text.toString().isEmpty()) {
                 binding.edtMessage.requestFocus()
-                Snackbar.make(
+                val snackBar = Snackbar.make(
                     binding.fragmentHome,
                     getString(R.string.fill_the_chat_first),
                     Snackbar.LENGTH_SHORT
-                ).show()
-            } else {
-                messagesRef.push().setValue(
-                    Message(
-                        uid = firebaseUser?.uid.toString(),
-                        name = firebaseUser?.displayName.toString(),
-                        photoUrl = firebaseUser?.photoUrl.toString(),
-                        text = binding.edtMessage.text.toString(),
-                        timestamp = Date().time
-                    )
                 )
+
+                snackBar.setAction(getString(R.string.ok)) {
+                    snackBar.dismiss()
+                }.show()
+            } else {
+                homeViewModel.insertMessage(
+                    uid = firebaseUser?.uid.toString(),
+                    text = binding.edtMessage.text.toString(),
+                    timestamp = Date().time,
+                    currentUser = true
+                )
+
+                homeViewModel.postChatBot(binding.edtMessage.text.toString()).observe(viewLifecycleOwner) { result ->
+                    when (result) {
+                        is Result.Loading -> {
+//                            onLoading()
+                        }
+
+                        is Result.Success -> {
+                            homeViewModel.insertMessage(
+                                uid = firebaseUser?.uid.toString(),
+                                text = result.data.response,
+                                timestamp = Date().time,
+                                currentUser = false
+                            )
+
+//                            loginViewModel.saveTokenUser(result.data.loginResult.token)
+//                            onSuccess()
+                        }
+
+                        is Result.Error -> {
+//                            onError(resources.getString(R.string.check_email_password_wrong))
+                        }
+                    }
+                }
+
+//                homeViewModel.insertMessage(
+//                    uid = firebaseUser?.uid.toString(),
+//                    text = binding.edtMessage.text.toString(),
+//                    timestamp = Date().time,
+//                    currentUser = false
+//                )
+
                 binding.edtMessage.setText("")
+                updateMessage(firebaseUser?.uid.toString())
             }
         }
 
@@ -77,53 +117,49 @@ class HomeFragment : Fragment() {
         manager.stackFromEnd = true
         binding.messageRecyclerView.layoutManager = manager
 
-        val options = FirebaseRecyclerOptions.Builder<Message>()
-            .setQuery(messagesRef, Message::class.java)
-            .build()
-        adapter = HomeAdapter(options, firebaseUser?.displayName)
+        adapter = HomeAdapter(false)
         binding.messageRecyclerView.adapter = adapter
     }
 
-    override fun onResume() {
-        super.onResume()
-        adapter.startListening()
+//    override fun onResume() {
+//        super.onResume()
+//        adapter.startListening()
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        adapter.stopListening()
+//    }
+
+    private fun updateMessage(uid: String){
+        homeViewModel.getMyChat(uid).observe(requireActivity()) {
+            adapter.submitList(it)
+        }
     }
 
-    override fun onPause() {
-        super.onPause()
-        adapter.stopListening()
-    }
+//    private fun responseBot(input: String){
+//        homeViewModel.postChatBot(input).observe(viewLifecycleOwner){ result ->
+//            if (result != null) {
+//                when (result) {
+//                    is Result.Loading -> {
+//                        binding.progressBar.visibility = View.VISIBLE
+//                    }
+//                    is Result.Success -> {
+//                        binding.progressBar.visibility = View.GONE
+//
+//                    }
+//                    is Result.Error -> {
+//                        binding.progressBar.visibility = View.GONE
+//                        binding.viewError.root.visibility = View.VISIBLE
+//                        binding.viewError.tvError.text = getString(R.string.something_wrong)
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-//    private fun downloadModel(modelName: String) {
-//        val conditions = CustomModelDownloadConditions.Builder()
-//            .requireWifi()
-//            .build()
-//        FirebaseModelDownloader.getInstance()
-//            .getModel(modelName, DownloadType.LOCAL_MODEL, conditions)
-//            .addOnSuccessListener { model ->
-//                try {
-//                    textClassifier = NLClassifier.createFromFile(model.file)
-//                    binding.sendButton.isEnabled = true
-//                } catch (e: IOException) {
-//                    Toast.makeText(
-//                        requireActivity(),
-//                        "Model initialization failed.",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                    binding.sendButton.isEnabled = false
-//                }
-//            }
-//            .addOnFailureListener {
-//                Toast.makeText(
-//                    requireActivity(),
-//                    "Model download failed, please check your connection.",
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            }
-//    }
 }

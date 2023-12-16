@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -15,11 +18,20 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.mhmdnurulkarim.hukumq.R
 import com.mhmdnurulkarim.hukumq.databinding.FragmentSettingsBinding
+import com.mhmdnurulkarim.hukumq.ui.ViewModelFactory
 import com.mhmdnurulkarim.hukumq.ui.login.SignInActivity
+import com.mhmdnurulkarim.hukumq.ui.splash.SplashActivity
+import com.mhmdnurulkarim.hukumq.ui.splash.SplashViewModel
 
 class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
+
+    private val settingsViewModel: SettingsViewModel by viewModels {
+        ViewModelFactory.getInstance(
+            requireActivity()
+        )
+    }
 
     private lateinit var auth: FirebaseAuth
 
@@ -57,13 +69,30 @@ class SettingsFragment : Fragment() {
             MaterialAlertDialogBuilder(requireActivity())
                 .setTitle(resources.getString(R.string.title))
                 .setMessage("Delete?")
-                .setNegativeButton("Cancel") { _, _ ->
+                .setNegativeButton("Cancel") { dialog, _ ->
+                    dialog.dismiss()
                 }
                 .setPositiveButton("Continue") { _, _ ->
                     deleteAccount(firebaseUser)
+                    startActivity(Intent(requireActivity(), SplashActivity::class.java))
+                    requireActivity().finishAffinity()
                 }
                 .setCancelable(true)
                 .show()
+        }
+
+        binding.switchTheme.setOnCheckedChangeListener { _, isChecked ->
+            settingsViewModel.saveThemeSetting(isChecked)
+        }
+
+        settingsViewModel.getThemeSetting().observe(requireActivity()) { isDarkModeActive ->
+            if (isDarkModeActive) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                binding.switchTheme.isChecked = true
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                binding.switchTheme.isChecked = false
+            }
         }
 
         binding.btnAboutUs.setOnClickListener {

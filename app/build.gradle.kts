@@ -53,8 +53,6 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
     implementation("androidx.annotation:annotation:1.7.0")
-//    implementation("org.tensorflow:tensorflow-lite-support:0.1.0")
-//    implementation("org.tensorflow:tensorflow-lite-metadata:0.1.0")
 
     //Testing
     testImplementation("junit:junit:4.13.2")
@@ -84,13 +82,12 @@ dependencies {
     implementation("com.google.firebase:firebase-database-ktx:20.3.0")
     implementation("com.firebaseui:firebase-ui-database:8.0.2")
 
-    implementation("com.google.firebase:firebase-ml-modeldownloader:24.2.1")
-    implementation("org.tensorflow:tensorflow-lite:2.14.0")
-    implementation("org.tensorflow:tensorflow-lite-task-text:0.4.4")
-
     //Coroutine
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+
+    //DataStore
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 }
