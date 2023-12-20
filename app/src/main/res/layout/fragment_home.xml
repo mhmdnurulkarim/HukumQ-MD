@@ -53,6 +53,12 @@
             app:tint="@color/white"
             app:elevation="0dp"
             tools:ignore="ContentDescription" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="54dp"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

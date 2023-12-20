@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -28,23 +27,32 @@ class HomeAdapter(
     inner class MessageViewHolder(private val binding: ItemMessageBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Chat) {
-            binding.tvMessage.text = item.message.text
-            setColorMessage(item.message.currentUser, binding.tvMessage)
-            binding.tvMessenger.text = item.user.name
-            Glide.with(itemView.context)
-                .load(item.user.photoUrl)
-                .circleCrop()
-                .into(binding.ivMessenger)
-            binding.tvTimestamp.text = DateUtils.getRelativeTimeSpanString(item.message.timestamp)
-        }
-
-        private fun setColorMessage(bot: Boolean?, textView: TextView) {
-            if (currentUser == bot) {
-                textView.setBackgroundResource(R.drawable.message_bot) //Bot
-                textView.setTextColor(Color.parseColor("#FFFFFFFF"))
+            if (currentUser == item.message.currentUser) {
+                //Bot
+                binding.apply {
+                    tvMessage.text = item.message.text
+                    tvMessage.setBackgroundResource(R.drawable.message_bot)
+                    tvMessage.setTextColor(Color.parseColor("#FFFFFFFF"))
+                    tvMessenger.text = itemView.resources.getString(R.string.hukubot)
+                    tvTimestamp.text = DateUtils.getRelativeTimeSpanString(item.message.timestamp)
+                }
+                Glide.with(itemView.context)
+                    .load("https://static.vecteezy.com/system/resources/previews/001/877/002/large_2x/cute-robot-face-icon-vector.jpg")
+                    .circleCrop()
+                    .into(binding.ivMessenger)
             } else {
-                textView.setBackgroundResource(R.drawable.message_user) //Human
-                textView.setTextColor(Color.parseColor("#FF000000"))
+                //Human
+                binding.apply {
+                    tvMessage.text = item.message.text
+                    tvMessage.setBackgroundResource(R.drawable.message_user)
+                    tvMessage.setTextColor(Color.parseColor("#FF000000"))
+                    tvMessenger.text = item.user.name
+                    tvTimestamp.text = DateUtils.getRelativeTimeSpanString(item.message.timestamp)
+                }
+                Glide.with(itemView.context)
+                    .load(item.user.photoUrl)
+                    .circleCrop()
+                    .into(binding.ivMessenger)
             }
         }
     }

@@ -100,16 +100,18 @@ class HomeFragment : Fragment() {
             val text = binding.edtMessage.text.toString().trim()
             homeViewModel.postChatBot(text).observe(viewLifecycleOwner) { result ->
                 when (result) {
-                    is Result.Loading -> {}
+                    is Result.Loading -> {
+                        isLoading(true)
+                    }
 
                     is Result.Success -> {
-                        binding.edtMessage.setText("")
                         homeViewModel.insertMessage(
                             uid = firebaseUser?.uid.toString(),
                             text = text,
                             timestamp = Date().time,
                             currentUser = true
                         )
+                        binding.edtMessage.setText("")
 
                         lifecycleScope.launch {
                             delay(1500)
@@ -119,17 +121,27 @@ class HomeFragment : Fragment() {
                                 timestamp = Date().time,
                                 currentUser = false
                             )
+                            isLoading(false)
                         }
                     }
 
                     is Result.Error -> {
+                        isLoading(false)
                     }
-
-                    else -> {}
                 }
             }
 
             updateMessage(firebaseUser?.uid.toString())
+        }
+    }
+
+    private fun isLoading(data: Boolean) {
+        if (data) {
+            binding.btnSend.visibility = View.GONE
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.btnSend.visibility = View.VISIBLE
+            binding.progressBar.visibility = View.GONE
         }
     }
 

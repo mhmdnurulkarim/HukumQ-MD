@@ -41,6 +41,7 @@
     <!-- Home Pge -->
     <string name="fill_the_chat_first">Silahkan Isi Kolom Chat Dahulu</string>
     <string name="text_field">Ada yang bisa saya bantu?</string>
+    <string name="hukubot">HukuBot</string>
 
     <!--Laws Page-->
     <string name="search_field">Apa yang ingin anda cari?</string>
@@ -84,6 +85,6 @@
     <string name="about_us">Tentang Kami</string>
     <string name="privacy_policy">Kebijakan Privasi</string>
     <string name="terms_and_conditions">Syarat dan Ketentuan</string>
-    <string name="sign_out_confirmation">Apakah anda yakin ingin keluar?</string>
+    <string name="sign_out_confirmation">Apakah anda yakin ingin keluar? \nHistory chat akan terhapus apabila anda keluar.</string>
 
 </resources>

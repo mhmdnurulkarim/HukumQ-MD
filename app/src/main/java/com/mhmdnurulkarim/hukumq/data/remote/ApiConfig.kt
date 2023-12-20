@@ -40,6 +40,4 @@ object ApiConfig {
             .build()
         return retrofit.create(ChatApiService::class.java)
     }
-
-    //Testing
 }
