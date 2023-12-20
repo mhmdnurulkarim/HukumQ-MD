@@ -3,19 +3,15 @@ package com.mhmdnurulkarim.hukumq.data
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
-import androidx.paging.Pager
-import androidx.paging.PagingData
 import com.mhmdnurulkarim.hukumq.data.database.MessageDao
 import com.mhmdnurulkarim.hukumq.data.model.Chat
 import com.mhmdnurulkarim.hukumq.data.model.Message
-import com.mhmdnurulkarim.hukumq.data.remote.NewsApiService
 import com.mhmdnurulkarim.hukumq.data.model.News
 import com.mhmdnurulkarim.hukumq.data.model.User
 import com.mhmdnurulkarim.hukumq.data.preferences.ThemeDataStore
 import com.mhmdnurulkarim.hukumq.data.remote.ChatApiService
 import com.mhmdnurulkarim.hukumq.data.remote.ChatResponse
+import com.mhmdnurulkarim.hukumq.data.remote.NewsApiService
 
 class Repository(
     private val newsApiService: NewsApiService,
@@ -25,15 +21,6 @@ class Repository(
 ) {
     //Home Page
     fun getMyChat(uid: String): LiveData<List<Chat>> = messageDao.getMyChat(uid)
-
-//    @Suppress("DEPRECATION")
-//    fun getMyChat(uid: String): LiveData<PagedList<Chat>> {
-//        val chat = messageDao.getMyChat(uid)
-//        val config = PagedList.Config.Builder()
-//            .setPageSize(PAGE_SIZE)
-//            .build()
-//        return LivePagedListBuilder(chat, config).build()
-//    }
 
     suspend fun insertUser(user: User) = messageDao.insertUser(user)
     suspend fun insertMessage(message: Message) = messageDao.insertMessage(message)
@@ -76,9 +63,9 @@ class Repository(
 
     fun getThemeSetting() = dataStore.getThemeSetting()
 
-    companion object {
+    suspend fun deleteMessage(uid: String) = messageDao.deleteMessage(uid)
 
-        const val PAGE_SIZE = 30
+    companion object {
 
         @Volatile
         private var instance: Repository? = null

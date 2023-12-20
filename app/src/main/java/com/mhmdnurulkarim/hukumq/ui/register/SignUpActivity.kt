@@ -46,7 +46,7 @@ class SignUpActivity : AppCompatActivity() {
             if (!Utils.isInternetAvailable(this)) {
                 Snackbar.make(
                     binding.activitySignUp,
-                    "Please Check your internet!",
+                    getString(R.string.check_your_internet),
                     Snackbar.LENGTH_SHORT
                 ).show()
             } else {

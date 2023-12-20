@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.mhmdnurulkarim.hukumq"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -30,16 +30,15 @@ android {
             )
         }
     }
+    buildFeatures {
+        viewBinding = true
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = "1.8"
-    }
-    buildFeatures {
-        viewBinding = true
-        mlModelBinding = true
     }
 }
 
@@ -52,7 +51,7 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
-    implementation("androidx.annotation:annotation:1.7.0")
+    implementation("androidx.annotation:annotation:1.7.1")
 
     //Testing
     testImplementation("junit:junit:4.13.2")
@@ -70,6 +69,7 @@ dependencies {
     //Room
     implementation("androidx.room:room-ktx:2.6.1")
     implementation("androidx.room:room-runtime:2.6.1")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.5.4")
     ksp("androidx.room:room-compiler:2.6.1")
 
     //Paging Data

@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.lifecycleScope
 import com.mhmdnurulkarim.hukumq.R
 import com.mhmdnurulkarim.hukumq.ui.ViewModelFactory
 import com.mhmdnurulkarim.hukumq.ui.login.SignInActivity
@@ -21,17 +22,15 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        runBlocking {
-            launch {
-                delay(TIME_SPLASH)
-                splashViewModel.getThemeSetting().observe(this@SplashActivity) { isDarkMode ->
-                    if (isDarkMode) {
-                        move()
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    } else {
-                        move()
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    }
+        lifecycleScope.launch {
+            delay(TIME_SPLASH)
+            splashViewModel.getThemeSetting().observe(this@SplashActivity) { isDarkMode ->
+                if (isDarkMode) {
+                    move()
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                } else {
+                    move()
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 }
             }
         }

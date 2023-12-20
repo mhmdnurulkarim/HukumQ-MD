@@ -1,5 +1,6 @@
 package com.mhmdnurulkarim.hukumq.ui.main.home
 
+import android.graphics.Color
 import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -28,7 +29,7 @@ class HomeAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Chat) {
             binding.tvMessage.text = item.message.text
-            setTextColor(item.message.currentUser, binding.tvMessage)
+            setColorMessage(item.message.currentUser, binding.tvMessage)
             binding.tvMessenger.text = item.user.name
             Glide.with(itemView.context)
                 .load(item.user.photoUrl)
@@ -37,11 +38,13 @@ class HomeAdapter(
             binding.tvTimestamp.text = DateUtils.getRelativeTimeSpanString(item.message.timestamp)
         }
 
-        private fun setTextColor(bot: Boolean?, textView: TextView) {
+        private fun setColorMessage(bot: Boolean?, textView: TextView) {
             if (currentUser == bot) {
-                textView.setBackgroundResource(R.drawable.rounded_message_blue) //Bot
+                textView.setBackgroundResource(R.drawable.message_bot) //Bot
+                textView.setTextColor(Color.parseColor("#FFFFFFFF"))
             } else {
-                textView.setBackgroundResource(R.drawable.rounded_message_yellow) //Human
+                textView.setBackgroundResource(R.drawable.message_user) //Human
+                textView.setTextColor(Color.parseColor("#FF000000"))
             }
         }
     }

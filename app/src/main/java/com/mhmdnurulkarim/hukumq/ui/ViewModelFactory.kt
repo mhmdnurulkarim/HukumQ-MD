@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.mhmdnurulkarim.hukumq.data.Repository
 import com.mhmdnurulkarim.hukumq.di.Injection
-import com.mhmdnurulkarim.hukumq.ui.main.MainViewModel
 import com.mhmdnurulkarim.hukumq.ui.main.home.HomeViewModel
 import com.mhmdnurulkarim.hukumq.ui.main.laws.LawsViewModel
 import com.mhmdnurulkarim.hukumq.ui.main.lawsDetail.DetailLawsViewModel
@@ -20,8 +19,6 @@ class ViewModelFactory private constructor(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SplashViewModel::class.java)) {
             return SplashViewModel(repository) as T
-        } else if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-            return MainViewModel(repository) as T
         } else if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
             return HomeViewModel(repository) as T
         } else if (modelClass.isAssignableFrom(LawsViewModel::class.java)) {

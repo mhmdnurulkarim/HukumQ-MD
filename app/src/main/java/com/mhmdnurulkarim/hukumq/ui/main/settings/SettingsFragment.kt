@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -21,7 +20,6 @@ import com.mhmdnurulkarim.hukumq.databinding.FragmentSettingsBinding
 import com.mhmdnurulkarim.hukumq.ui.ViewModelFactory
 import com.mhmdnurulkarim.hukumq.ui.login.SignInActivity
 import com.mhmdnurulkarim.hukumq.ui.splash.SplashActivity
-import com.mhmdnurulkarim.hukumq.ui.splash.SplashViewModel
 
 class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
@@ -65,27 +63,16 @@ class SettingsFragment : Fragment() {
         binding.btnChangePassword.setOnClickListener {
             changePassword(firebaseUser.email.toString())
         }
+
         binding.btnDeleteAccount.setOnClickListener {
-            MaterialAlertDialogBuilder(requireActivity())
-                .setTitle(resources.getString(R.string.title))
-                .setMessage("Delete?")
-                .setNegativeButton("Cancel") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .setPositiveButton("Continue") { _, _ ->
-                    deleteAccount(firebaseUser)
-                    startActivity(Intent(requireActivity(), SplashActivity::class.java))
-                    requireActivity().finishAffinity()
-                }
-                .setCancelable(true)
-                .show()
+            deleteAccount(firebaseUser)
         }
 
         binding.switchTheme.setOnCheckedChangeListener { _, isChecked ->
             settingsViewModel.saveThemeSetting(isChecked)
         }
 
-        settingsViewModel.getThemeSetting().observe(requireActivity()) { isDarkModeActive ->
+        settingsViewModel.getThemeSetting().observe(viewLifecycleOwner) { isDarkModeActive ->
             if (isDarkModeActive) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 binding.switchTheme.isChecked = true
@@ -120,16 +107,7 @@ class SettingsFragment : Fragment() {
         }
 
         binding.btnLogout.setOnClickListener {
-            MaterialAlertDialogBuilder(requireActivity())
-                .setTitle(resources.getString(R.string.title))
-                .setMessage("Sign Out?")
-                .setNegativeButton("Cancel") { _, _ ->
-                }
-                .setPositiveButton("SignOut") { _, _ ->
-                    signOut()
-                }
-                .setCancelable(true)
-                .show()
+            signOut(firebaseUser)
         }
     }
 
@@ -153,28 +131,52 @@ class SettingsFragment : Fragment() {
     }
 
     private fun deleteAccount(user: FirebaseUser) {
-        user.delete()
-            .addOnCompleteListener(requireActivity()) { task ->
-                if (task.isSuccessful) {
-                    Snackbar.make(
-                        binding.fragmentSettings,
-                        getString(R.string.account_deleted_successfully),
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                } else {
-                    Snackbar.make(
-                        binding.fragmentSettings,
-                        getString(R.string.failed_to_delete_account),
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
+        MaterialAlertDialogBuilder(requireActivity())
+            .setTitle(getString(R.string.delete_account))
+            .setMessage(getString(R.string.account_deleted_confirmation))
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
             }
+            .setPositiveButton(getString(R.string._continue)) { _, _ ->
+                settingsViewModel.deleteMessage(user.uid)
+                user.delete()
+                    .addOnCompleteListener(requireActivity()) { task ->
+                        if (task.isSuccessful) {
+                            Snackbar.make(
+                                binding.fragmentSettings,
+                                getString(R.string.account_deleted_successfully),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Snackbar.make(
+                                binding.fragmentSettings,
+                                getString(R.string.failed_to_delete_account),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                startActivity(Intent(requireActivity(), SplashActivity::class.java))
+                requireActivity().finishAffinity()
+            }
+            .setCancelable(true)
+            .show()
     }
 
-    private fun signOut() {
-        auth.signOut()
-        startActivity(Intent(requireActivity(), SignInActivity::class.java))
-        requireActivity().finishAffinity()
+    private fun signOut(user: FirebaseUser) {
+        MaterialAlertDialogBuilder(requireActivity())
+            .setTitle(resources.getString(R.string.sign_out))
+            .setMessage(getString(R.string.sign_out_confirmation))
+            .setNegativeButton(getString(R.string.cancel)) { _, _ ->
+            }
+            .setPositiveButton(getString(R.string._continue)) { _, _ ->
+                settingsViewModel.deleteMessage(user.uid)
+                auth.signOut()
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                startActivity(Intent(requireActivity(), SignInActivity::class.java))
+                requireActivity().finishAffinity()
+            }
+            .setCancelable(true)
+            .show()
     }
 
     override fun onDestroyView() {

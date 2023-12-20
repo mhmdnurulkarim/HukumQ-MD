@@ -1,7 +1,6 @@
 package com.mhmdnurulkarim.hukumq.data.remote
 
 import com.mhmdnurulkarim.hukumq.utils.Const.CHAT_BASE_URL
-import com.mhmdnurulkarim.hukumq.utils.Const.CHAT_JSON_BASE_URL
 import com.mhmdnurulkarim.hukumq.utils.Const.NEWS_BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

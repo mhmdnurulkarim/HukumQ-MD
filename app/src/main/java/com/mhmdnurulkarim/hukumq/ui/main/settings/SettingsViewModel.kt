@@ -13,4 +13,8 @@ class SettingsViewModel(private val repository: Repository): ViewModel() {
     }
 
     fun getThemeSetting() = repository.getThemeSetting().asLiveData(Dispatchers.IO)
+
+    fun deleteMessage(uid: String) = viewModelScope.launch {
+        repository.deleteMessage(uid)
+    }
 }

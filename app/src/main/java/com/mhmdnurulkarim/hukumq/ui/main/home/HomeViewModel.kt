@@ -3,7 +3,6 @@ package com.mhmdnurulkarim.hukumq.ui.main.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagedList
 import com.mhmdnurulkarim.hukumq.data.Repository
 import com.mhmdnurulkarim.hukumq.data.model.Chat
 import com.mhmdnurulkarim.hukumq.data.model.Message
@@ -13,10 +12,7 @@ import kotlinx.coroutines.launch
 class HomeViewModel(private val repository: Repository) : ViewModel() {
 
     fun getMyChat(uid: String): LiveData<List<Chat>> = repository.getMyChat(uid)
-
     fun postChatBot(input: String) = repository.postChatBot(input)
-
-//    fun getMyChat(uid: String): LiveData<PagedList<Chat>> = repository.getMyChat(uid)
 
     fun insertMessage(
         uid: String,
@@ -29,7 +25,8 @@ class HomeViewModel(private val repository: Repository) : ViewModel() {
             text = text,
             timestamp = timestamp,
             currentUser = currentUser,
-            messageId = null)
+            messageId = null
+        )
         viewModelScope.launch {
             repository.insertMessage(message)
         }
@@ -43,7 +40,8 @@ class HomeViewModel(private val repository: Repository) : ViewModel() {
         val user = User(
             userId = uid,
             name = name,
-            photoUrl = photoUrl)
+            photoUrl = photoUrl
+        )
         viewModelScope.launch {
             repository.insertUser(user)
         }

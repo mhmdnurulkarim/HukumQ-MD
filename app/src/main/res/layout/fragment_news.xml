@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="?actionBarSize"
-    tools:context=".ui.main.news.NewsFragment">
+    android:layout_marginBottom="@dimen/m3_bottom_nav_min_height"
+    tools:context=".ui.main.news.NewsFragment"
+    tools:ignore="PrivateResource">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_news"

@@ -1,60 +1,89 @@
 <resources>
     <string name="app_name">HukumQ</string>
-    <string name="version">Version 1.0.0</string>
+    <string name="version">Version 0.0.8</string>
 
-    <!-- Bottom NavBar -->
-    <string name="title_home">Home</string>
-    <string name="title_laws">Laws</string>
-    <string name="title_news">News</string>
-    <string name="title_settings">Settings</string>
+    <!--  Bottom NavBar  -->
+    <string name="title_home">Beranda</string>
+    <string name="title_laws">Hukum</string>
+    <string name="title_news">Berita</string>
+    <string name="title_settings">Pengaturan</string>
 
-    <!-- General -->
-    <string name="username">Username</string>
+    <!--  General  -->
+    <string name="username">Nama Pengguna</string>
     <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="sign_in">SIGN IN</string>
-    <string name="sign_up">SIGN UP</string>
-    <string name="sign_out">SIGN OUT</string>
-    <string name="or">OR</string>
+    <string name="password">Kata sandi</string>
+    <string name="sign_in">MASUK</string>
+    <string name="sign_up">DAFTAR</string>
+    <string name="sign_out">Keluar</string>
+    <string name="or">ATAU</string>
     <string name="ok">OK</string>
-    <string name="continue_with_google">CONTINUE WITH GOOGLE</string>
-    <string name="in_development">In Development</string>
+    <string name="continue_with_google">LANJUTKAN DENGAN GOOGLE</string>
+    <string name="in_development">Dalam Pengembangan</string>
+    <string name="cancel">Batalkan</string>
+    <string name="_continue">Lanjutkan</string>
 
-    <!-- SignIn/SignUp -->
-    <string name="sign_in_now">SIGN IN NOW!</string>
-    <string name="create_new_account">CREATE NEW ACCOUNT!</string>
-    <string name="already_have_an_account">ALREADY HAVE AN ACCOUNT?</string>
-    <string name="dont_have_an_account">DONT HAVE AN ACCOUNT?</string>
-    <string name="forgot_password">FORGOT PASSWORD</string>
-    <string name="check_your_internet">Please Check your internet!</string>
-    <string name="fill_the_email_field_first">Please fill the email field first</string>
-    <string name="fill_the_username_field_first">Please fill the username field first</string>
-    <string name="fill_the_password_field_first">Please fill the password field first</string>
-    <string name="authentication_failed">Authentication failed.</string>
-    <string name="password_reset_email">Password reset email sent to %1$s</string>
-    <string name="failed_to_send_password_reset_email">Failed to send password reset email</string>
-    <string name="verification_email">Verification email sent to %1$s</string>
-    <string name="failed_to_send_verification_email">Failed to send verification email</string>
+    <!--  SignIn/SignUp  -->
+    <string name="sign_in_now">MASUK SEKARANG!</string>
+    <string name="create_new_account">BUAT AKUN BARU!</string>
+    <string name="already_have_an_account">SUDAH PUNYA AKUN?</string>
+    <string name="dont_have_an_account">TIDAK PUNYA AKUN?</string>
+    <string name="forgot_password">LUPA KATA SANDI</string>
+    <string name="check_your_internet">Periksa Kondisi Internet Anda!</string>
+    <string name="fill_the_email_field_first">Silahkan Isi Kolom Email Dahulu</string>
+    <string name="fill_the_username_field_first">Silakan Isi Kolom Nama Pengguna Terlebih Dahulu</string>
+    <string name="fill_the_password_field_first">Silakan Isi Kolom Kata Sandi Terlebih Dahulu</string>
+    <string name="authentication_failed">Otentikasi Gagal.</string>
+    <string name="password_reset_email">Email Pengaturan ulang Kata Sandi dikirim ke %1$s</string>
+    <string name="failed_to_send_password_reset_email">Gagal mengirim email pengaturan ulang kata sandi</string>
+    <string name="verification_email">Email verifikasi dikirim ke %1$s</string>
+    <string name="failed_to_send_verification_email">Gagal mengirim email verifikasi</string>
 
     <!-- Home Pge -->
-    <string name="fill_the_chat_first">Please fill the chat field first</string>
+    <string name="fill_the_chat_first">Silahkan Isi Kolom Chat Dahulu</string>
+    <string name="text_field">Ada yang bisa saya bantu?</string>
 
-    <!-- News Page -->
-    <string name="title">Title</string>
-    <string name="pubDate">Publish Date</string>
-    <string name="something_wrong">Oops.. something went wrong.</string>
+    <!--Laws Page-->
+    <string name="search_field">Apa yang ingin anda cari?</string>
+    <string-array name="title_legal">
+        <item>Undang-undang</item>
+        <item>PERPU</item>
+        <item>Peraturan Pemerintah</item>
+        <item>Peraturan Presiden</item>
+        <item>Peraturan Menteri</item>
+        <item>Peraturan Badan/Lembaga</item>
+        <item>Peraturan Daerah</item>
+        <item>Peraturan Lainnya</item>
+    </string-array>
 
-    <!-- Setting Page -->
-    <string name="account_settings">Account Settings</string>
-    <string name="change_password">Change Password</string>
-    <string name="delete_account">Delete Account</string>
-    <string name="dark_mode">Dark Mode</string>
-    <string name="change_language">Change Language</string>
-    <string name="more">More</string>
-    <string name="about_us">About Us</string>
-    <string name="privacy_policy">Privacy Policy</string>
-    <string name="terms_and_conditions">Terms and conditions</string>
-    <string name="account_deleted_successfully">Account deleted successfully</string>
-    <string name="failed_to_delete_account">Failed to delete account</string>
+    <string-array name="link_legal">
+        <item>https://peraturan.go.id/uu</item>
+        <item>https://peraturan.go.id/perppu</item>
+        <item>https://peraturan.go.id/pp</item>
+        <item>https://peraturan.go.id/perpres</item>
+        <item>https://peraturan.go.id/permen</item>
+        <item>https://peraturan.go.id/perban</item>
+        <item>https://peraturan.go.id/perda</item>
+        <item>https://peraturan.go.id/cariglobal</item>
+    </string-array>
+
+    <!--  News Page  -->
+    <string name="title">Judul</string>
+    <string name="pubDate">Tanggal Publikasi</string>
+    <string name="something_wrong">Oops... ada yang salah.</string>
+
+    <!--  Setting Page  -->
+    <string name="account_settings">Pengaturan Akun</string>
+    <string name="change_password">Ganti Kata Sandi</string>
+    <string name="delete_account">Hapus Akun</string>
+    <string name="account_deleted_confirmation">Apakah anda yakin ingin menghapus akun ini?</string>
+    <string name="account_deleted_successfully">Akun berhasil dihapus</string>
+    <string name="failed_to_delete_account">Gagal menghapus akun</string>
+    <string name="dark_mode">Mode Gelap</string>
+    <string name="change_language">Ganti Bahasa</string>
+    <string name="more">Lainnya</string>
+    <string name="about_us">Tentang Kami</string>
+    <string name="privacy_policy">Kebijakan Privasi</string>
+    <string name="terms_and_conditions">Syarat dan Ketentuan</string>
+    <string name="sign_out_confirmation">Apakah anda yakin ingin keluar?</string>
 
 </resources>
